@@ -5,7 +5,7 @@ primary_region = "fra"  # Change this to your preferred region
   image = "ghcr.io/bluesky-social/pds:latest"
 
 [env]
-  PDS_HOSTNAME = "my.atproto.app"  # Change this to your domain
+  PDS_HOSTNAME = "<your-domain>"  # Change this to your domain
   PDS_BSKY_APP_VIEW_URL = "https://api.bsky.app"
   PDS_BSKY_APP_VIEW_DID = "did:web:api.bsky.app"
   PDS_DID_PLC_URL = "https://plc.directory"
