@@ -1,0 +1,51 @@
+app = "my-pds-app"  # Change this to your desired app name
+primary_region = "fra"  # Change this to your preferred region
+
+[build]
+  image = "ghcr.io/bluesky-social/pds:latest"
+
+[env]
+  PDS_HOSTNAME = "my.atproto.app"  # Change this to your domain
+  PDS_BSKY_APP_VIEW_URL = "https://api.bsky.app"
+  PDS_BSKY_APP_VIEW_DID = "did:web:api.bsky.app"
+  PDS_DID_PLC_URL = "https://plc.directory"
+  PDS_REPORT_SERVICE_URL = "https://mod.bsky.app"
+  PDS_REPORT_SERVICE_DID = "did:plc:ar7c4by46qjdydhdevvrndac"
+  PDS_CRAWLERS = "https://bsky.network"
+  LOG_ENABLED = "true"
+  PDS_BLOB_UPLOAD_LIMIT = "52428800"
+  PDS_BLOBSTORE_TYPE = "s3"
+  PDS_BLOBSTORE_S3_BUCKET = "social-obc-one"
+  PDS_BLOBSTORE_S3_ENDPOINT = "https://6f8d061245fb23a280cd7ef57353077b.eu.r2.cloudflarestorage.com"
+  PDS_BLOBSTORE_S3_FORCE_PATH_STYLE = "true"
+  PDS_BLOBSTORE_S3_REGION = "auto"
+  PDS_BLOBSTORE_S3_UPLOAD_TIMEOUT_MS = "20000"
+  PDS_DATA_DIRECTORY="/pds"
+
+[mounts]
+  source = "pds_data"
+  destination = "/pds"
+
+[[services]]
+  protocol = "tcp"
+  internal_port = 3000
+  processes = ["app"]
+
+  [[services.ports]]
+    port = 80
+    handlers = ["http"]
+    force_https = true
+
+  [[services.ports]]
+    port = 443
+    handlers = ["tls", "http"]
+
+[services.concurrency]
+  type = "connections"
+  hard_limit = 25
+  soft_limit = 20
+
+[[vm]]
+  cpu_kind = "shared"
+  cpus = 1
+  memory_mb = 1024
